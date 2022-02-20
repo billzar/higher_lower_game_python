@@ -1,0 +1,72 @@
+import game_data
+import random
+import replit
+import art
+
+def computer_choice():
+  lengh_of_data = len(game_data.data)
+  random_choice = random.randint(0, lengh_of_data - 1)
+  return random_choice
+
+# computer choises a random instagram account
+instagram_A = computer_choice()
+# count score
+game_score = 0
+
+game_over = False
+
+while game_over == False:
+  # computer choises a second instagram account
+  instagram_B = computer_choice()
+  # here we make sure that the second account is not the same with the first one.
+  while instagram_A == instagram_B:
+    instagram_B = computer_choice()
+
+  def present_instagram_A():
+    name_a = game_data.data[instagram_A]["name"]
+    description_a = game_data.data[instagram_A]["description"]
+    country_a = game_data.data[instagram_A]["country"]
+    print(f"Compare A: {name_a}, a {description_a}, from {country_a}. ")
+
+  def present_instagram_B():
+    name_b = game_data.data[instagram_B]["name"]
+    description_b = game_data.data[instagram_B]["description"]
+    country_b = game_data.data[instagram_B]["country"]
+    print(f"Against B: {name_b}, a {description_b}, from {country_b}. ")
+
+  
+  print(art.logo)
+  if game_score > 0:
+    print(f"You are right! Current score: {game_score}")
+
+  present_instagram_A()
+  print(art.vs)
+  present_instagram_B()
+
+  # find the winner between the two
+  insta_follower_a = game_data.data[instagram_A]["follower_count"]
+  insta_follower_b = game_data.data[instagram_B]["follower_count"]
+
+  winner_account_is = ""
+  if insta_follower_a > insta_follower_b:
+    winner_account_is = "a"
+  else:
+    winner_account_is = "b"
+  
+  # ask user to guess
+  user_guess = ""
+  valid_answers = ["a", "A","b","B"]
+  while user_guess not in valid_answers:
+    user_guess = input("Who has more followers? Type 'A' or 'B': ")
+    if user_guess not in valid_answers:
+      print("Please provide a valid responce.")
+
+  if user_guess == winner_account_is:
+    game_score += 1 
+    instagram_A = instagram_B
+    replit.clear()
+    #make a loop
+  else:
+    print(f"Sorry, that's wrong. Final score: {game_score}")
+    game_over = True
+
